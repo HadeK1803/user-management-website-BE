@@ -5,10 +5,10 @@
         "database": "user_management",
         "host": "127.0.0.1",
         "dialect": "mysql",
-        "logging": true,
         "define": {
             "freezeTableName": true
-        }
+        },
+        "logging": true
     },
     "test": {
         "username": "root",
