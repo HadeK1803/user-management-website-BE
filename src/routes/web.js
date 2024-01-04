@@ -1,7 +1,7 @@
 import express from 'express';
 import homeController from '../controllers/homeController';
 import bodyParser from 'body-parser';
-
+import apiController from '../controllers/apiController';
 
 const router = express.Router();
 /**
