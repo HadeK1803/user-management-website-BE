@@ -45,50 +45,51 @@ const getUserList = async () => {
          return [];
      }
     */
-    try {
-        /**
-         * Normally we have group 1 and we will find all roles in that group
-         * => But when we code, we will find all role from group 1
-         */
-        // From Group 1 to find all roles 
-        // let roles = await db.Group.findAll({
-        //     where: { id: 1 },
-        //     include: {
-        //         model: db.Role,
-        //     },
-        //     raw: true,
-        //     nest: true,
-        // });
-        // Find all roles from group 1
-        let roles = await db.Role.findAll({
-            include: {
-                model: db.Group,
-                where: { id: 1 },
-                attributes: ["id", "name", "description"],
+    // ----------- Test eager loading --------
+    // try {
+    //     /**
+    //      * Normally we have group 1 and we will find all roles in that group
+    //      * => But when we code, we will find all role from group 1
+    //      */
+    //     // From Group 1 to find all roles 
+    //     // let roles = await db.Group.findAll({
+    //     //     where: { id: 1 },
+    //     //     include: {
+    //     //         model: db.Role,
+    //     //     },
+    //     //     raw: true,
+    //     //     nest: true,
+    //     // });
+    //     // Find all roles from group 1
+    //     let roles = await db.Role.findAll({
+    //         include: {
+    //             model: db.Group,
+    //             where: { id: 1 },
+    //             attributes: ["id", "name", "description"],
 
-            },
-            attributes: ["id", "url", "description"],
-            raw: true,
-            nest: true,
-        });
+    //         },
+    //         attributes: ["id", "url", "description"],
+    //         raw: true,
+    //         nest: true,
+    //     });
 
-        let arr = await db.User.findAll({
-            include: {
-                model: db.Group,
-                where: { id: 1 },
-                attributes: ["id", "name", "description"],
-            },
-            attributes: ["id", "username", "email"],
-            raw: true,
-            nest: true,
-        });
-        // console.log(">>>Check users: ", arr);
+    //     let arr = await db.User.findAll({
+    //         include: {
+    //             model: db.Group,
+    //             where: { id: 1 },
+    //             attributes: ["id", "name", "description"],
+    //         },
+    //         attributes: ["id", "username", "email"],
+    //         raw: true,
+    //         nest: true,
+    //     });
+    //     // console.log(">>>Check users: ", arr);
 
-        console.log(">>>Check roles: ", roles);
-    }
-    catch (err) {
-        console.log(">>>Error: ", err);
-    }
+    //     console.log(">>>Check roles: ", roles);
+    // }
+    // catch (err) {
+    //     console.log(">>>Error: ", err);
+    // }
 
     //----------------------------------------------------------------
     let users = [];

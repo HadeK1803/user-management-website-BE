@@ -15,6 +15,9 @@ const initApiRoutes = (app) => {
     // [POST] /api/v1/register
     router.post("/register", apiController.handleRegister);
 
+    // [POST] /api/v1/login
+    router.post("/login", apiController.handleLogin);
+
     //Website starts at "/api/v1"
     return app.use("/api/v1", router);
 }
