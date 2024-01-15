@@ -3,13 +3,28 @@ import userApiService from '../services/userApiService'
 // [GET] /api/v1/user/read
 const readFunc = async (req, res) => {
     try {
-        let data = await userApiService.getAllUsers();
+        //Get users with pagination
+        if (req.query.page && req.query.limit) {
+            let page = req.query.page;
+            let limit = req.query.limit;
 
-        return res.status(200).json({
-            EM: data.EM,
-            EC: data.EC,
-            DT: data.DT,
-        })
+            let data = await userApiService.getUsersWithPagination(+page, +limit);
+            return res.status(200).json({
+                EM: data.EM,
+                EC: data.EC,
+                DT: data.DT,
+            })
+
+        } else {
+            //Get all users without pagination
+            let data = await userApiService.getAllUsers();
+
+            return res.status(200).json({
+                EM: data.EM,
+                EC: data.EC,
+                DT: data.DT,
+            })
+        }
     } catch (err) {
         return res.status(500).json({
             EM: 'Error from server',

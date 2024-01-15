@@ -8,7 +8,7 @@ const getAllUsers = async () => {
     try {
         let users = [];
         users = await db.User.findAll({
-            attributes: ["email", "username", "address", "phone", "sex"],
+            attributes: ["id", "email", "username", "address", "phone", "sex"],
             include: {
                 model: db.Group,
                 attributes: ["name", "description"],
@@ -21,6 +21,42 @@ const getAllUsers = async () => {
             EM: "Get all users successfully",
             EC: 0,
             DT: users
+        }
+    } catch (err) {
+        console.log(err);
+        return {
+            EM: 'Something is wrong at service',
+            EC: -2,
+            DT: '',
+        }
+    }
+}
+
+const getUsersWithPagination = async (page, limit) => {
+    try {
+        let offset = (page - 1) * limit;
+
+        let { count, rows } = await db.User.findAndCountAll({
+            attributes: ["id", "email", "username", "address", "phone", "sex"],
+            include: {
+                model: db.Group,
+                attributes: ["name", "description"],
+            },
+            offset: offset,
+            limit: limit
+
+        });
+        let totalPages = Math.ceil(count / limit);
+
+        let data = {
+            totalRows: count,
+            totalPages: totalPages,
+            users: rows
+        }
+        return {
+            EM: "Get users with pagination successfully",
+            EC: 0,
+            DT: data
         }
     } catch (err) {
         console.log(err);
@@ -82,5 +118,5 @@ const deleteUser = async (id) => {
     }
 }
 module.exports = {
-    getAllUsers, createNewUser, updateUser, deleteUser
+    getAllUsers, createNewUser, updateUser, deleteUser, getUsersWithPagination
 }
