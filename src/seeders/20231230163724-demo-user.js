@@ -11,22 +11,58 @@ module.exports = {
          *   isBetaMember: false
          * }], {});
         */
-        await queryInterface.bulkInsert('users', [
+        await queryInterface.bulkInsert('user', [
             {
-                email: 'khang@gmail.com',
-                username: 'Khang',
-                password: 'admin'
+                email: 'test1@gmail.com',
+                username: 'test1',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
             },
             {
-                email: 'hadek@gmail.com',
-                username: 'HadeK',
-                password: 'admin'
+                email: 'test2@gmail.com',
+                username: 'test2',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
             },
             {
-                email: 'hades@gmail.com',
-                username: 'Hades',
-                password: 'admin'
-            }
+                email: 'test3@gmail.com',
+                username: 'test3',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
+            },
+            {
+                email: 'test4@gmail.com',
+                username: 'test4',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
+            },
+            {
+                email: 'test5@gmail.com',
+                username: 'test5',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
+            },
+            {
+                email: 'test6@gmail.com',
+                username: 'test6',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
+            },
+            {
+                email: 'test7@gmail.com',
+                username: 'test7',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
+            },
+            {
+                email: 'test8@gmail.com',
+                username: 'test8',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
+            },
+            {
+                email: 'test9@gmail.com',
+                username: 'test9',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
+            },
+            {
+                email: 'test10@gmail.com',
+                username: 'test10',
+                password: '$2a$10$MrBRjhlwvosTCL24.StMyuQV0DUjL0OBQDbijl9P4p5B.hzkphYni'
+            },
+
         ], {});
     },
 

@@ -50,7 +50,7 @@ const createFunc = (req, res) => {
         })
     }
 }
-// [PUT] /api/v1/user/PUT
+// [PUT] /api/v1/user/update
 const updateFunc = (req, res) => {
     try {
         return res.status(200).json({
@@ -67,8 +67,9 @@ const updateFunc = (req, res) => {
     }
 }
 // [DELETE] /api/v1/user/delete
-const deleteFunc = (req, res) => {
+const deleteFunc = async (req, res) => {
     try {
+        let data = await userApiService.deleteUser(req.body.id);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

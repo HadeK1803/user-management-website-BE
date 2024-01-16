@@ -25,7 +25,7 @@ const getAllUsers = async () => {
     } catch (err) {
         console.log(err);
         return {
-            EM: 'Something is wrong at service',
+            EM: 'Something is wrong from service',
             EC: -2,
             DT: '',
         }
@@ -61,7 +61,7 @@ const getUsersWithPagination = async (page, limit) => {
     } catch (err) {
         console.log(err);
         return {
-            EM: 'Something is wrong at service',
+            EM: 'Something is wrong from service',
             EC: -2,
             DT: '',
         }
@@ -76,7 +76,7 @@ const createNewUser = async (data) => {
     } catch (err) {
         console.log(err);
         return {
-            EM: 'Something is wrong at service',
+            EM: 'Something is wrong from service',
             EC: -2,
             DT: '',
         }
@@ -96,7 +96,7 @@ const updateUser = async (data) => {
     } catch (err) {
         console.log(err);
         return {
-            EM: 'Something is wrong at service',
+            EM: 'Something is wrong from service',
             EC: -2,
             DT: '',
         }
@@ -105,13 +105,29 @@ const updateUser = async (data) => {
 
 const deleteUser = async (id) => {
     try {
-        await db.User.delete({
+        let user = await db.User.findOne({
             where: { id: id }
         })
+        if (user) {
+            await db.User.destroy({
+                where: { id: id }
+            })
+            return {
+                EM: "User deleted successfully",
+                EC: 0,
+                DT: '',
+            }
+        } else {
+            return {
+                EM: "User not found",
+                EC: 5,
+                DT: '',
+            }
+        }
     } catch (err) {
         console.log(err);
         return {
-            EM: 'Something is wrong at service',
+            EM: 'Something is wrong from service',
             EC: -2,
             DT: '',
         }
