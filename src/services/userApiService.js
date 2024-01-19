@@ -4,6 +4,31 @@ const salt = bcrypt.genSaltSync(10);
 
 import { Op } from 'sequelize';
 
+const hashUserPassword = (password) => {
+    let hashedPassword = bcrypt.hashSync(password, salt);
+    // let isHashed = bcrypt.compareSync(password, hashedPassword); // true
+    // console.log(isHashed);
+    return hashedPassword;
+}
+
+const checkEmailExist = async (userEmail) => {
+    let user = await db.User.findOne({
+        where: { email: userEmail }
+    })
+    if (user) {
+        return true;
+    }
+    return false;
+}
+const checkPhoneExist = async (userPhone) => {
+    let user = await db.User.findOne({
+        where: { phone: userPhone }
+    })
+    if (user) {
+        return true;
+    }
+    return false;
+}
 const getAllUsers = async () => {
     try {
         let users = [];
@@ -70,9 +95,60 @@ const getUsersWithPagination = async (page, limit) => {
 
 const createNewUser = async (data) => {
     try {
-        await db.User.create({
+        // Check missing parameters
+        if (!data.email || !data.phone || !data.password) {
+            return {
+                EM: 'Missed required parameters',
+                EC: 1,
+                DT: '',
+            }
+        }
+        //check email/phone are existed
+        let isEmailExisted = await checkEmailExist(data.email);
+        if (isEmailExisted === true) {
+            return {
+                EM: 'The email already exists',
+                EC: 2,
+                DT: '',
+            }
+        }
+        // check email is correct format
+        let regx = /\S+@\S+\.\S+/;
+        if (!regx.test(data.email)) {
+            return {
+                EM: 'The email is incorrect format',
+                EC: 3,
+                DT: '',
+            }
+        }
+        let isPhoneExisted = await checkPhoneExist(data.phone);
+        if (isPhoneExisted === true) {
+            return {
+                EM: 'The phone already exists',
+                EC: 2,
+                DT: '',
+            }
+        }
+        if (!data.password || data.password.length < 8) {
+            return {
+                EM: 'Password must have at least 8 characters',
+                EC: 4,
+                DT: '',
+            }
+        }
+        //hash user password
+        let hashedPassword = hashUserPassword(data.password);
 
-        })
+        //create a new user 
+        await db.User.create({
+            ...data,
+            password: hashedPassword,
+        });
+        return {
+            EM: 'Created new user successfully',
+            EC: 0,
+            DT: '',
+        }
     } catch (err) {
         console.log(err);
         return {

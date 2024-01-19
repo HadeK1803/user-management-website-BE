@@ -35,8 +35,9 @@ const readFunc = async (req, res) => {
 }
 
 // [POST] /api/v1/user/create
-const createFunc = (req, res) => {
+const createFunc = async (req, res) => {
     try {
+        let data = await userApiService.createNewUser(req.body);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
