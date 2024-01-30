@@ -36,9 +36,9 @@ const getAllUsers = async () => {
             attributes: ["id", "email", "username", "address", "phone", "sex"],
             include: {
                 model: db.Group,
-                attributes: ["name", "description"],
-
+                attributes: ["id", "name", "description"],
             },
+            order: [['id', 'DESC']],
             // raw: true,
             // nest: true
         });
@@ -65,10 +65,12 @@ const getUsersWithPagination = async (page, limit) => {
             attributes: ["id", "email", "username", "address", "phone", "sex"],
             include: {
                 model: db.Group,
-                attributes: ["name", "description"],
+                attributes: ["id", "name", "description"],
             },
             offset: offset,
-            limit: limit
+            limit: limit,
+            order: [['id', 'DESC']],
+
 
         });
         let totalPages = Math.ceil(count / limit);
@@ -100,7 +102,7 @@ const createNewUser = async (data) => {
             return {
                 EM: 'Missed required parameters',
                 EC: 1,
-                DT: '',
+                DT: [],
             }
         }
         //check email/phone are existed
@@ -109,7 +111,7 @@ const createNewUser = async (data) => {
             return {
                 EM: 'The email already exists',
                 EC: 2,
-                DT: '',
+                DT: 'email',
             }
         }
         // check email is correct format
@@ -118,7 +120,7 @@ const createNewUser = async (data) => {
             return {
                 EM: 'The email is incorrect format',
                 EC: 3,
-                DT: '',
+                DT: 'email',
             }
         }
         let isPhoneExisted = await checkPhoneExist(data.phone);
@@ -126,14 +128,14 @@ const createNewUser = async (data) => {
             return {
                 EM: 'The phone already exists',
                 EC: 2,
-                DT: '',
+                DT: 'phone',
             }
         }
         if (!data.password || data.password.length < 8) {
             return {
                 EM: 'Password must have at least 8 characters',
                 EC: 4,
-                DT: '',
+                DT: 'password',
             }
         }
         //hash user password
@@ -147,27 +149,51 @@ const createNewUser = async (data) => {
         return {
             EM: 'Created new user successfully',
             EC: 0,
-            DT: '',
+            DT: [],
         }
     } catch (err) {
         console.log(err);
         return {
             EM: 'Something is wrong from service',
             EC: -2,
-            DT: '',
+            DT: [],
         }
     }
 }
 
 const updateUser = async (data) => {
     try {
+        //Check group 
+        if (!data.groupId) {
+            return {
+                EM: 'Empty group',
+                EC: 5,
+                DT: 'group',
+            }
+        }
         let user = await db.User.findOne({
             where: { id: data.id },
         })
         if (user) {
             //update
+            await user.update({
+                username: data.username,
+                address: data.address,
+                sex: data.sex,
+                groupId: data.groupId,
+            })
+            return {
+                EM: 'Updated user successfully',
+                EC: 0,
+                DT: '',
+            }
         } else {
             //not found
+            return {
+                EM: 'User not found',
+                EC: 5,
+                DT: 'group',
+            }
         }
     } catch (err) {
         console.log(err);

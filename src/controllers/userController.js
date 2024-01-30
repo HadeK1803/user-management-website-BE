@@ -52,8 +52,9 @@ const createFunc = async (req, res) => {
     }
 }
 // [PUT] /api/v1/user/update
-const updateFunc = (req, res) => {
+const updateFunc = async (req, res) => {
     try {
+        let data = await userApiService.updateUser(req.body);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
