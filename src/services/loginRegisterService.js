@@ -1,8 +1,14 @@
+require("dotenv").config();
+
 import db from '../models/index';
 import bcrypt from 'bcryptjs';
 const salt = bcrypt.genSaltSync(10);
 
 import { Op } from 'sequelize';
+
+import { getGroupWithRoles } from './JWTService';
+
+import { createToken } from '../middleware/JWTAction';
 
 const hashUserPassword = (password) => {
     let hashedPassword = bcrypt.hashSync(password, salt);
@@ -57,7 +63,8 @@ const handleRegister = async (rawUserData) => {
             email: rawUserData.email,
             username: rawUserData.username,
             phone: rawUserData.phone,
-            password: hashedPassword
+            password: hashedPassword,
+            groupId: 6 // default group is guess
         });
         return {
             EM: 'A new user has been created',
@@ -98,11 +105,27 @@ const handleLoginUser = async (rawUserData) => {
             let isCorrectPassword = checkHashPassword(rawUserData.password, user.password);
 
             if (isCorrectPassword) {
-                console.log(" >>> Login sucessfully with password: ", rawUserData.password);
+                // console.log(" >>> Login sucessfully with password: ", rawUserData.password);
+
+                //Get roles of this user
+
+                let groupWithRoles = await getGroupWithRoles(user);
+                let payload = {
+                    email: user.email,
+                    groupWithRoles,
+                    expiresIn: process.env.JWT_EXPIRES_IN,
+                }
+
+                //Create token
+                let token = createToken(payload);
                 return {
-                    EM: 'Ok',
+                    EM: 'Login succesfully',
                     EC: 0,
-                    DT: '',
+                    DT: {
+                        accessToken: token,
+                        //Add group with roles into data return to make React handle this easily. Even it is included of payload (token)
+                        groupWithRoles
+                    },
                 }
             }
             else {
