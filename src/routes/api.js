@@ -9,6 +9,7 @@ const router = express.Router();
  * @param {*} app - express app
  */
 
+// req => middleware (return to reject req or next to go to res) => res
 const initApiRoutes = (app) => {
 
     // [GET] /api/v1/testApi

@@ -100,7 +100,7 @@ const handleLoginUser = async (rawUserData) => {
         })
 
         if (user) {
-            console.log(">>> Found user with email/phone: ", rawUserData.valueLogin);
+            // console.log(">>> Found user with email/phone: ", rawUserData.valueLogin);
             //check password
             let isCorrectPassword = checkHashPassword(rawUserData.password, user.password);
 
@@ -123,7 +123,8 @@ const handleLoginUser = async (rawUserData) => {
                     EC: 0,
                     DT: {
                         accessToken: token,
-                        //Add group with roles into data return to make React handle this easily. Even it is included of payload (token)
+                        // Add group with roles into data return to make React handle this easily. 
+                        // Even it is included of payload (token)
                         groupWithRoles
                     },
                 }

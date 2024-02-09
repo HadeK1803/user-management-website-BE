@@ -5,6 +5,10 @@ const handleHome = (req, res) => {
 }
 // [GET] /user
 const handleUser = async (req, res) => {
+
+    // Read cookie
+    console.log('>>>Cookies: ', req.cookies)
+
     //Model => get all users data from database
     let userList = await userService.getUserList();
 
