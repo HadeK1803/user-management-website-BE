@@ -64,7 +64,7 @@ const handleRegister = async (rawUserData) => {
             username: rawUserData.username,
             phone: rawUserData.phone,
             password: hashedPassword,
-            groupId: 6 // default group is guess
+            groupId: 6 // default group is guest
         });
         return {
             EM: 'A new user has been created',

@@ -3,7 +3,7 @@ import db from '../models/index';
 //
 const getGroupWithRoles = async (user) => {
     // From Group x to find all roles of x
-    let roles = await db.Group.findAll({
+    let roles = await db.Group.findOne({
         attributes: ["id", "name", "description"],
         where: { id: user.groupId },
         include: {

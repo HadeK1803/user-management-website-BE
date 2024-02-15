@@ -60,7 +60,7 @@ const handleLogin = async (req, res) => {
         let data = await loginRegisterService.handleLoginUser(req.body);
 
         //Set cookie
-        res.cookie("jwt_token", data.DT.accessToken, { httpOnly: true });
+        res.cookie("jwt_token", data.DT.accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 });
 
         return res.status(200).json({
             EM: data.EM,

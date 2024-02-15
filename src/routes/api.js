@@ -4,12 +4,28 @@ import apiController from '../controllers/apiController';
 import groupController from '../controllers/groupController';
 
 import userController from '../controllers/userController';
+
+import { checkUserJWT, checkUserPermission } from '../middleware/JWTAction';
+
 const router = express.Router();
 /**
  * @param {*} app - express app
  */
 
 // req => middleware (return to reject req or next to go to res) => res
+
+// const checkUserLogin = (req, res, next) => {
+//     const nonSecurePaths = ['/', '/register', '/login'];
+//     if (nonSecurePaths.includes(req.path)) return next();
+
+//     //authenticate user
+//     if (user) {
+
+//         next();
+//     } else {
+
+//     }
+// }
 const initApiRoutes = (app) => {
 
     // [GET] /api/v1/testApi
@@ -24,7 +40,7 @@ const initApiRoutes = (app) => {
     //-------------User------------
     // CRUD User (Restful API)
     // [GET] /api/v1/user/read
-    router.get("/user/read", userController.readFunc);
+    router.get("/user/read", checkUserJWT, checkUserPermission, userController.readFunc);
 
     // [POST] /api/v1/user/create
     router.post("/user/create", userController.createFunc);

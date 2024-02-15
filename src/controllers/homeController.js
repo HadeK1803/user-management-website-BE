@@ -7,7 +7,7 @@ const handleHome = (req, res) => {
 const handleUser = async (req, res) => {
 
     // Read cookie
-    console.log('>>>Cookies: ', req.cookies)
+    // console.log('>>>Cookies: ', req.cookies)
 
     //Model => get all users data from database
     let userList = await userService.getUserList();
