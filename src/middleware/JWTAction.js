@@ -27,15 +27,25 @@ const verifyToken = (token) => {
     }
     return decoded;
 }
-
+// Extract token from header Bearer Authorization
+const extractToken = (req) => {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        return req.headers.authorization.split(' ')[1];
+    }
+    return null;
+}
 // Decode the token
 const checkUserJWT = (req, res, next) => {
     if (nonSecurePaths.includes(req.path)) {
         return next();
     }
     let cookies = req.cookies;
-    if (cookies && cookies.jwt_token) {
-        let token = cookies.jwt_token;
+    let tokenFromHeader = extractToken(req);
+
+    if (cookies && cookies.jwt_token || tokenFromHeader) {
+        // Get token from cookie or header bearer authorization
+        let token = cookies && cookies.jwt_token ? cookies.jwt_token : tokenFromHeader;
+
         let decoded = verifyToken(token);
         if (decoded) {
             req.user = decoded;
