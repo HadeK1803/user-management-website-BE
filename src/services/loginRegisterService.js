@@ -112,8 +112,8 @@ const handleLoginUser = async (rawUserData) => {
                 let groupWithRoles = await getGroupWithRoles(user);
                 let payload = {
                     email: user.email,
+                    username: user.username,
                     groupWithRoles,
-                    expiresIn: process.env.JWT_EXPIRES_IN,
                 }
 
                 //Create token
@@ -125,7 +125,9 @@ const handleLoginUser = async (rawUserData) => {
                         accessToken: token,
                         // Add group with roles into data return to make React handle this easily. 
                         // Even it is included of payload (token)
-                        groupWithRoles
+                        groupWithRoles,
+                        email: user.email,
+                        username: user.username
                     },
                 }
             }

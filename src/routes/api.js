@@ -14,19 +14,9 @@ const router = express.Router();
 
 // req => middleware (return to reject req or next to go to res) => res
 
-// const checkUserLogin = (req, res, next) => {
-//     const nonSecurePaths = ['/', '/register', '/login'];
-//     if (nonSecurePaths.includes(req.path)) return next();
-
-//     //authenticate user
-//     if (user) {
-
-//         next();
-//     } else {
-
-//     }
-// }
 const initApiRoutes = (app) => {
+    // Apply 2 middlewares to all routes
+    router.all('*', checkUserJWT, checkUserPermission);
 
     // [GET] /api/v1/testApi
     router.get("/testApi", apiController.testApi);
@@ -37,10 +27,13 @@ const initApiRoutes = (app) => {
     // [POST] /api/v1/login
     router.post("/login", apiController.handleLogin);
 
+    // [GET] /api/v1/account
+    router.get("/account", userController.getUserAccount);
+
     //-------------User------------
     // CRUD User (Restful API)
     // [GET] /api/v1/user/read
-    router.get("/user/read", checkUserJWT, checkUserPermission, userController.readFunc);
+    router.get("/user/read", userController.readFunc);
 
     // [POST] /api/v1/user/create
     router.post("/user/create", userController.createFunc);
