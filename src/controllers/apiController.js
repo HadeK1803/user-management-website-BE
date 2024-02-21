@@ -61,7 +61,7 @@ const handleLogin = async (req, res) => {
 
         //Set cookie
         if (data && data.DT && data.DT.accessToken) {
-            res.cookie("jwt_token", data.DT.accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 });
+            res.cookie("jwt", data.DT.accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 });
         }
 
         return res.status(200).json({
@@ -81,10 +81,29 @@ const handleLogin = async (req, res) => {
 
 }
 
+const handleLogout = (req, res) => {
+    try {
+        res.clearCookie("jwt");
 
+        return res.status(200).json({
+            EM: 'Logged out successfully',
+            EC: 0,
+            DT: '',
+        })
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            EM: 'Error from server',
+            EC: -1,
+            DT: '',
+        })
+    }
+}
 
 module.exports = {
     testApi: testApi,
     handleRegister: handleRegister,
     handleLogin: handleLogin,
+    handleLogout
 }

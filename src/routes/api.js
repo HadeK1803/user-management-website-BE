@@ -27,6 +27,9 @@ const initApiRoutes = (app) => {
     // [POST] /api/v1/login
     router.post("/login", apiController.handleLogin);
 
+    // [POST] /api/v1/logout
+    router.post("/logout", apiController.handleLogout);
+
     // [GET] /api/v1/account
     router.get("/account", userController.getUserAccount);
 
