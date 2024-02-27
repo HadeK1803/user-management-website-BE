@@ -1,4 +1,5 @@
 import db from '../models/index';
+import { Op } from 'sequelize';
 
 const getGroups = async () => {
     try {
@@ -6,6 +7,11 @@ const getGroups = async () => {
         group = await db.Group.findAll({
             attributes: ["id", "name", "description"],
             order: [['name', 'ASC']],
+            where: {
+                [Op.not]: [
+                    { id: 7 },
+                ]
+            },
         })
         return {
             EM: 'Get all groups successfully',

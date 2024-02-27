@@ -64,6 +64,7 @@ const handleRegister = async (rawUserData) => {
             username: rawUserData.username,
             phone: rawUserData.phone,
             password: hashedPassword,
+            sex: 1,
             groupId: 6 // default group is guest
         });
         return {

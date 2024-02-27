@@ -37,6 +37,11 @@ const getAllUsers = async () => {
             include: {
                 model: db.Group,
                 attributes: ["id", "name", "description"],
+                where: {
+                    [Op.not]: [
+                        { id: 7 },
+                    ]
+                },
             },
             order: [['id', 'DESC']],
             // raw: true,
@@ -66,11 +71,15 @@ const getUsersWithPagination = async (page, limit) => {
             include: {
                 model: db.Group,
                 attributes: ["id", "name", "description"],
+                where: {
+                    [Op.not]: [
+                        { id: 7 },
+                    ]
+                },
             },
             offset: offset,
             limit: limit,
             order: [['id', 'DESC']],
-
 
         });
         let totalPages = Math.ceil(count / limit);

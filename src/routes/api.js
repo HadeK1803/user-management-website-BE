@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import apiController from '../controllers/apiController';
 import groupController from '../controllers/groupController';
+import roleController from '../controllers/roleController';
 
 import userController from '../controllers/userController';
 
@@ -33,7 +34,7 @@ const initApiRoutes = (app) => {
     // [GET] /api/v1/account
     router.get("/account", userController.getUserAccount);
 
-    //-------------User------------
+    //-------------------------------------User-------------------------------------
     // CRUD User (Restful API)
     // [GET] /api/v1/user/read
     router.get("/user/read", userController.readFunc);
@@ -47,9 +48,22 @@ const initApiRoutes = (app) => {
     // [DELETE] /api/v1/user/delete
     router.delete("/user/delete", userController.deleteFunc);
 
-    //-------------GROUP------------
+    //-------------------------------------GROUP-------------------------------------
     //[GET] /api/v1/group/read
     router.get("/group/read", groupController.readFunc);
+
+    //-------------------------------------ROLE-------------------------------------
+    // [GET] /api/v1/role/read
+    router.get("/role/read", roleController.readFunc);
+
+    // [POST] /api/v1/role/create
+    router.post("/role/create", roleController.createFunc);
+
+    // [PUT] /api/v1/role/update
+    router.put("/role/update", roleController.updateFunc);
+
+    // [DELETE] /api/v1/role/delete
+    router.delete("/role/delete", roleController.deleteFunc);
 
     //Website starts at "/api/v1"
     return app.use("/api/v1", router);

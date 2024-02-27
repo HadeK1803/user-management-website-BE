@@ -77,6 +77,14 @@ const checkUserPermission = async (req, res, next) => {
         let email = req.user.email;
         let currentUrl = req.path;
         let roles = req.user.groupWithRoles.Roles;
+
+        //check admin
+        let idAdmin = req.user.groupWithRoles.id;
+        if (idAdmin === 7) {
+            next();
+            return;
+        }
+
         if (!roles || roles.length === 0) {
             return res.status(403).json({
                 EC: -1,
