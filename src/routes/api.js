@@ -65,6 +65,13 @@ const initApiRoutes = (app) => {
     // [DELETE] /api/v1/role/delete
     router.delete("/role/delete", roleController.deleteFunc);
 
+    // [GET] /api/v1/role/by-group/:id
+    router.get("/role/by-group/:groupId", roleController.getRolesByGroupId)
+
+    // [POST] /api/v1/role/assign-to-group
+    router.post("/role/assign-to-group", roleController.assignRolesToGroup)
+
+    //--------------------------------------------------------------------------
     //Website starts at "/api/v1"
     return app.use("/api/v1", router);
 }
